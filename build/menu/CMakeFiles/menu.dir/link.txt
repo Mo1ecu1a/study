@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/menu.dir/main.cpp.o CMakeFiles/menu.dir/menu_items.cpp.o CMakeFiles/menu.dir/menu_func.cpp.o -o menu 

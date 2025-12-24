@@ -1,4 +1,4 @@
-project(tests)
+project(src)
 
 set(LIBRARY
 	lib
@@ -7,4 +7,4 @@ set(LIBRARY
 add_library(${LIBRARY} "")
 
 add_subdirectory(bubble)
-add_subdirectory(test)
+add_subdirectory(tests)

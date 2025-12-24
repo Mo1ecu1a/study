@@ -5,8 +5,7 @@ project(study)
 enable_testing()
 add_subdirectory(lib/googletest)
 
-add_subdirectory(bubble)
 add_subdirectory(menu)
-add_subdirectory(tests)
+add_subdirectory(src)
 
 set(CMAKE_SUPPRESS_REGENERATION true)
