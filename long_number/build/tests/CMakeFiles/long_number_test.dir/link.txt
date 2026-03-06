@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/long_number_test.dir/long_number_test.cpp.o -o long_number_test  ../libLN_lib.a -lgtest -lgtest_main -lpthread 

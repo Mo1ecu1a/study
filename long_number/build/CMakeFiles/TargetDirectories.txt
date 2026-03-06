@@ -1,0 +1,8 @@
+/home/polina/study/long_number/build/CMakeFiles/LN_lib.dir
+/home/polina/study/long_number/build/CMakeFiles/edit_cache.dir
+/home/polina/study/long_number/build/CMakeFiles/rebuild_cache.dir
+/home/polina/study/long_number/build/src/CMakeFiles/edit_cache.dir
+/home/polina/study/long_number/build/src/CMakeFiles/rebuild_cache.dir
+/home/polina/study/long_number/build/tests/CMakeFiles/long_number_test.dir
+/home/polina/study/long_number/build/tests/CMakeFiles/edit_cache.dir
+/home/polina/study/long_number/build/tests/CMakeFiles/rebuild_cache.dir

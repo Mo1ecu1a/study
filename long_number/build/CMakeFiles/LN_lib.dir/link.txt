@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLN_lib.a CMakeFiles/LN_lib.dir/src/long_number.cpp.o
+/usr/bin/ranlib libLN_lib.a
