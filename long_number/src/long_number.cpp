@@ -15,16 +15,20 @@ LongNumber::LongNumber(int length, int sign): len(length), sign(sign) {
 }
 
 LongNumber::LongNumber(const char* const str) {
-	int start;
-	if (str[0] == '-') {
-		start = 1;
+	const char* ptr = str;
+
+	if (*ptr == '-') {
 		sign = 1;
+		++ptr;
 	} else {
-		start = 0;
 		sign = 0;
 	}
 
-	len = strlen(str) - start;
+	while (*ptr == '0') ++ptr;
+
+	const char* end = ptr;
+	while (*end >= '0' && *end <= '9') ++end;
+	len = end - ptr;
 
 	digits = new int[len];
 	for (int i = 0; i < len; ++i) {
