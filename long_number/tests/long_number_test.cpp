@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "long_number.hpp"
 
-using namespace ypa;  // замените на ваше пространство имен
+using namespace ypa;
 
 class LongNumberTests : public testing::Test {
 public:
