@@ -15,20 +15,16 @@ LongNumber::LongNumber(int length, int sign): len(length), sign(sign) {
 }
 
 LongNumber::LongNumber(const char* const str) {
-	const char* ptr = str;
-
-	if (*ptr == '-') {
+	int start;
+	if (str[0] == '-') {
+		start = 1;
 		sign = 1;
-		++ptr;
 	} else {
+		start = 0;
 		sign = 0;
 	}
 
-	while (*ptr == '0') ++ptr;
-
-	const char* end = ptr;
-	while (*end >= '0' && *end <= '9') ++end;
-	len = end - ptr;
+	len = strlen(str) - start;
 
 	digits = new int[len];
 	for (int i = 0; i < len; ++i) {
@@ -276,7 +272,7 @@ LongNumber LongNumber::operator - (const LongNumber& x) const {
 LongNumber LongNumber::operator * (const LongNumber& x) const {
 	bool this_zero = (len == 1 && digits[0] == 0);
 	bool x_zero = (x.len == 1 && x.digits[0] == 0);
-    if (this_zero || x_zero)	return LongNumber(1, 0);
+    if (this_zero || x_zero) return LongNumber(1, 0);
     
     LongNumber result(len + x.len + 1, sign ^ x.sign);
     
@@ -301,6 +297,10 @@ LongNumber LongNumber::operator * (const LongNumber& x) const {
 
 
 LongNumber LongNumber::operator / (const LongNumber& x) const {
+	bool this_zero = (len == 1 && digits[0] == 0);
+	bool x_zero = (x.len == 1 && x.digits[0] == 0);
+	if (this_zero) return LongNumber(1, 0);
+
     LongNumber dividend = *this; 
     dividend.sign = 0;
     LongNumber divisor_positive = x;
