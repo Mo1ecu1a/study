@@ -1,10 +1,10 @@
 project(src)
 
-set(LIBRARY
-	lib
-)
+#set(LIBRARY
+#	lib
+#)
 
-add_library(${LIBRARY} "")
+#add_library(${LIBRARY} "")
 
 add_subdirectory(bubble)
 add_subdirectory(tests)

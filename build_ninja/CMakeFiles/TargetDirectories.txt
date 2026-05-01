@@ -1,0 +1,8 @@
+/home/polina/study/build_ninja/CMakeFiles/edit_cache.dir
+/home/polina/study/build_ninja/CMakeFiles/rebuild_cache.dir
+/home/polina/study/build_ninja/bubble/CMakeFiles/bubble.dir
+/home/polina/study/build_ninja/bubble/CMakeFiles/edit_cache.dir
+/home/polina/study/build_ninja/bubble/CMakeFiles/rebuild_cache.dir
+/home/polina/study/build_ninja/tests/CMakeFiles/test_bubble.dir
+/home/polina/study/build_ninja/tests/CMakeFiles/edit_cache.dir
+/home/polina/study/build_ninja/tests/CMakeFiles/rebuild_cache.dir

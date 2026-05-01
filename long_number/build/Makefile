@@ -130,17 +130,17 @@ LN_lib/fast:
 .PHONY : LN_lib/fast
 
 #=============================================================================
-# Target rules for targets named long_number_test
+# Target rules for targets named long_number_test_biv
 
 # Build rule for target.
-long_number_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 long_number_test
-.PHONY : long_number_test
+long_number_test_biv: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 long_number_test_biv
+.PHONY : long_number_test_biv
 
 # fast build rule for target.
-long_number_test/fast:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/build
-.PHONY : long_number_test/fast
+long_number_test_biv/fast:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/build
+.PHONY : long_number_test_biv/fast
 
 src/long_number.o: src/long_number.cpp.o
 .PHONY : src/long_number.o
@@ -175,7 +175,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... LN_lib"
-	@echo "... long_number_test"
+	@echo "... long_number_test_biv"
 	@echo "... src/long_number.o"
 	@echo "... src/long_number.i"
 	@echo "... src/long_number.s"

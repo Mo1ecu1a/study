@@ -98,7 +98,7 @@ src/clean:
 # Directory level rules for directory tests
 
 # Recursive "all" directory target.
-tests/all: tests/CMakeFiles/long_number_test.dir/all
+tests/all: tests/CMakeFiles/long_number_test_biv.dir/all
 .PHONY : tests/all
 
 # Recursive "preinstall" directory target.
@@ -106,7 +106,7 @@ tests/preinstall:
 .PHONY : tests/preinstall
 
 # Recursive "clean" directory target.
-tests/clean: tests/CMakeFiles/long_number_test.dir/clean
+tests/clean: tests/CMakeFiles/long_number_test_biv.dir/clean
 .PHONY : tests/clean
 
 #=============================================================================
@@ -136,30 +136,30 @@ CMakeFiles/LN_lib.dir/clean:
 .PHONY : CMakeFiles/LN_lib.dir/clean
 
 #=============================================================================
-# Target rules for target tests/CMakeFiles/long_number_test.dir
+# Target rules for target tests/CMakeFiles/long_number_test_biv.dir
 
 # All Build rule for target.
-tests/CMakeFiles/long_number_test.dir/all: CMakeFiles/LN_lib.dir/all
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/depend
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/polina/study/long_number/build/CMakeFiles --progress-num=3,4 "Built target long_number_test"
-.PHONY : tests/CMakeFiles/long_number_test.dir/all
+tests/CMakeFiles/long_number_test_biv.dir/all: CMakeFiles/LN_lib.dir/all
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/depend
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/polina/study/long_number/build/CMakeFiles --progress-num=3,4 "Built target long_number_test_biv"
+.PHONY : tests/CMakeFiles/long_number_test_biv.dir/all
 
 # Build rule for subdir invocation for target.
-tests/CMakeFiles/long_number_test.dir/rule: cmake_check_build_system
+tests/CMakeFiles/long_number_test_biv.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/polina/study/long_number/build/CMakeFiles 4
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/long_number_test.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/long_number_test_biv.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/polina/study/long_number/build/CMakeFiles 0
-.PHONY : tests/CMakeFiles/long_number_test.dir/rule
+.PHONY : tests/CMakeFiles/long_number_test_biv.dir/rule
 
 # Convenience name for target.
-long_number_test: tests/CMakeFiles/long_number_test.dir/rule
-.PHONY : long_number_test
+long_number_test_biv: tests/CMakeFiles/long_number_test_biv.dir/rule
+.PHONY : long_number_test_biv
 
 # clean rule for target.
-tests/CMakeFiles/long_number_test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/clean
-.PHONY : tests/CMakeFiles/long_number_test.dir/clean
+tests/CMakeFiles/long_number_test_biv.dir/clean:
+	$(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/clean
+.PHONY : tests/CMakeFiles/long_number_test_biv.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

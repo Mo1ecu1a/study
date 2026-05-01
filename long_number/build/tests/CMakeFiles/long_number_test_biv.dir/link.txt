@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/long_number_test_biv.dir/long_number_test_biv.cpp.o -o long_number_test_biv  ../libLN_lib.a -lgtest -lgtest_main -lpthread 

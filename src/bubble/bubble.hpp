@@ -2,7 +2,7 @@
 #define BUBBLE_HPP
 
 namespace ypa {
-	void bubble(int* const arr, const int size);
+	void sort(int* const arr, const int size);
 }
 
 #endif

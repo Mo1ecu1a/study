@@ -3,19 +3,19 @@ cmake_policy(SET CMP0003 NEW)
 link_directories(/usr/lib/x86_64-linux-gnu)
 include_directories(/usr/src/googletest/googletest/include)
 
-add_executable(long_number_test
-    ${CMAKE_CURRENT_SOURCE_DIR}/long_number_test.cpp
+add_executable(long_number_test_biv
+    ${CMAKE_CURRENT_SOURCE_DIR}/long_number_test_biv.cpp
 )
 
-target_link_libraries(long_number_test
+target_link_libraries(long_number_test_biv
     ${LIBRARY}
     gtest
     gtest_main
     pthread
 )
 
-target_include_directories(long_number_test PRIVATE
+target_include_directories(long_number_test_biv PRIVATE
     ${PROJECT_SOURCE_DIR}/src
 )
 
-add_test(NAME long_number_test COMMAND long_number_test)
+add_test(NAME long_number_test_biv COMMAND long_number_test_biv)

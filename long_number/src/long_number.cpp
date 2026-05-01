@@ -11,28 +11,56 @@ LongNumber::LongNumber() {
 LongNumber::LongNumber(int length, int sign): len(length), sign(sign) {
 	this->len = length;
 	this->sign = sign;
-	this->digits = new int[len]{0};
+	this->digits = new int[len]();
+	for (int i = 0; i < len; ++i) {
+		digits[i] = 0;
+	}
 }
 
 LongNumber::LongNumber(const char* const str) {
 	const char* ptr = str;
+	while (*ptr == ' ') ++ptr;
 
 	if (*ptr == '-') {
 		sign = 1;
 		++ptr;
 	} else {
 		sign = 0;
+		if (*ptr == '+') ++ptr;
 	}
 
 	while (*ptr == '0') ++ptr;
+
+
+	if (*ptr == '\0') {
+		len = 1;
+		digits = new int[len];
+		digits[0] = 0;
+		sign = 0;
+		return;
+	}
+
+
 
 	const char* end = ptr;
 	while (*end >= '0' && *end <= '9') ++end;
 	len = end - ptr;
 
+	if (len <= 0) {
+		len = 1;
+		digits = new int[len];
+		digits[0] = 0;
+		sign = 0;
+		return;
+	}
+
 	digits = new int[len];
 	for (int i = 0; i < len; ++i) {
-		digits[i] = end[-1 - i] - '0';
+		char c = end[-1 - i];
+		if (c < '0' || c > '9') {
+			delete[] digits;
+		}
+		digits[i] = c - '0';
 	}
 
 
@@ -178,13 +206,17 @@ LongNumber LongNumber::operator + (const LongNumber& x) const {
 			return *this - temp;
 		}
 	}
-	LongNumber result;
-	delete[] result.digits;
+
+	LongNumber x_positive = x;
+	x_positive.sign = 0;
+	LongNumber this_positive = *this;
+	this_positive.sign = 0;
+	if (sign != x.sign && this_positive == x_positive) {
+		return LongNumber(1, 0);
+	}
 
 	int maxLen = (len > x.len ? len : x.len) + 1;
-	result.len = maxLen;
-	result.digits = new int[maxLen]{0};
-	result.sign = sign;
+	LongNumber result(maxLen, sign);
 
 	int carry = 0;
 	for (int i = 0; i < maxLen; ++i) {
@@ -206,7 +238,7 @@ LongNumber LongNumber::operator - (const LongNumber& x) const {
 	bool this_zero = (len == 1 && digits[0] == 0);
 	bool x_zero = (x.len == 1 && x.digits[0] == 0);
 
-	if (this_zero and x_zero) return LongNumber(1, 0);;
+	if (this_zero and x_zero) return LongNumber(1, 0);
 	if (this_zero) {
 		LongNumber result = x;
 		result.sign = !x.sign;
@@ -227,6 +259,14 @@ LongNumber LongNumber::operator - (const LongNumber& x) const {
 		b.sign = 0;
 		return b - a;
 	}
+	if (x == *this) return LongNumber(1, 0);
+	LongNumber x_positive = x;
+	x_positive.sign = 0;
+	LongNumber this_positive = *this;
+	this_positive.sign = 0;
+	if (sign != x.sign && this_positive == x_positive) {
+		return LongNumber(1, 0);
+	}
 
 	bool a_less_b = false;
 	if (len != x.len) {
@@ -244,12 +284,7 @@ LongNumber LongNumber::operator - (const LongNumber& x) const {
 		result.sign = 1;
 		return result;
 	}
-	LongNumber result;
-	delete[] result.digits;
-
-	result.len = len;
-	result.digits = new int[len];
-	result.sign = 0;
+	LongNumber result(len, 0);
 
 	int borrow = 0; //перенос из следую	ё	щего разряда
 	for (int i = 0; i < len; ++i) {
@@ -278,8 +313,8 @@ LongNumber LongNumber::operator * (const LongNumber& x) const {
 	bool x_zero = (x.len == 1 && x.digits[0] == 0);
     if (this_zero || x_zero) return LongNumber(1, 0);
     
-    LongNumber result(len + x.len + 1, sign ^ x.sign);
-    
+    LongNumber result(len + x.len , sign ^ x.sign);
+    //+1
     for (int i = 0; i < x.len; i++) {
         for (int j = 0; j < len; j++) {
             result.digits[i + j] += x.digits[i] * digits[j];
@@ -300,8 +335,8 @@ LongNumber LongNumber::operator * (const LongNumber& x) const {
 }
 
 
-LongNumber LongNumber::operator / (const LongNumber& x) const {
-	bool this_zero = (len == 1 && digits[0] == 0);
+// LongNumber LongNumber::operator / (const LongNumber& x) const {
+/*	bool this_zero = (len == 1 && digits[0] == 0);
 	bool x_zero = (x.len == 1 && x.digits[0] == 0);
 	if (this_zero) return LongNumber(1, 0);
 
@@ -311,16 +346,27 @@ LongNumber LongNumber::operator / (const LongNumber& x) const {
     divisor_positive.sign = 0;
     
     if (dividend < divisor_positive) {
-        return LongNumber(1, 0);
+        return 0;
     }
+    int result_len = len - x.len + 1;
+    if (result_len <= 0) result_len = 1;
 
-    LongNumber result;
-    result = LongNumber(len - x.len + 1, sign ^ x.sign);
+    LongNumber result(result_len, sign ^ x.sign);
+    for (int i = 0; i < result_len; i++) {
+    	result.digits[i] = 0;
+    }
     for (int i = 0; i < result.len; i++) {
-        LongNumber shifted_divisor = LongNumber(len - i, 0);
+
+        LongNumber shifted_divisor(len - i, 0);
+        for (int k = 0; k < shifted_divisor.len; k++) {
+    		shifted_divisor.digits[k] = 0;
+    	}
         
         for (int j = 0; j < x.len; j++) {
-            shifted_divisor.digits[len - x.len - i + j] = divisor_positive.digits[j];
+        	int pos = len - x.len - i + j;
+        	if (pos >= 0 && pos < shifted_divisor.len) {
+        		shifted_divisor.digits[pos] = divisor_positive.digits[j];
+        	}
         }
         
         int counter = 0;
@@ -335,8 +381,61 @@ LongNumber LongNumber::operator / (const LongNumber& x) const {
         result.len--;
     }
     
+    //if (sign != x.sign && !(result.len == 1 && result.digits[0] == 0)) {
+    //	result.sign = 1;
+    //} else {
+    //	result.sign = 0;
+    //}
+
+    if (this->is_negative() && divisor_positive * result != divisor_positive) {
+    	LongNumber one(1, 0);
+    	result = result - one;
+    }
+
     return result;
 }
+*/
+
+LongNumber LongNumber::operator / (const LongNumber& x) const {
+  bool this_zero = (len == 1 && digits[0] == 0);
+  bool x_zero = (x.len == 1 && x.digits[0] == 0);
+  if (this_zero || x_zero) return LongNumber(1, 0);
+  LongNumber res;
+  LongNumber abs_x = x;
+  LongNumber dividend = *this;
+    
+  abs_x.sign = 0;
+  dividend.sign = 0;
+  
+  if (dividend < abs_x)    
+    return res;
+  else {
+    res = LongNumber(len - x.len + 1, 1);
+    for(int i = 0; i < res.len; i++) {
+      LongNumber divisor = LongNumber(len - i, 0);
+      
+      for (int j = 0; j < x.len; j++)
+        divisor.digits[len - x.len - i + j] = x.digits[j];
+      
+      int counter = 0;
+      while (dividend > divisor || dividend == divisor) {
+        counter++;
+        dividend = dividend - divisor;
+      }
+      res.digits[res.len - i - 1] = counter;
+    }
+  }
+  
+  while (res.len > 1 and res.digits[res.len - 1] == 0)
+    res.len--;
+  if (this->is_negative() and res * abs_x != dividend) {
+        res = res + LongNumber("1");
+    }
+
+    res.sign = this->sign != x.sign;
+    return res;
+}
+
 
 
 LongNumber LongNumber::operator % (const LongNumber& x) const {

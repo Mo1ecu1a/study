@@ -3,10 +3,12 @@ set(SOURCES
 )
 
 add_executable(test_bubble ${SOURCES})
+
 target_link_libraries(test_bubble 
-	${LIBRARY}
+	#${LIBRARY}
+	bubble
+	gtest
 	gtest_main 
-	gmock_main 
 )
 
-add_test(test_bubble test_bubble)
+add_test(NAME test_bubble COMMAND test_bubble)

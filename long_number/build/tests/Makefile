@@ -117,42 +117,42 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-tests/CMakeFiles/long_number_test.dir/rule:
-	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/long_number_test.dir/rule
-.PHONY : tests/CMakeFiles/long_number_test.dir/rule
+tests/CMakeFiles/long_number_test_biv.dir/rule:
+	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 tests/CMakeFiles/long_number_test_biv.dir/rule
+.PHONY : tests/CMakeFiles/long_number_test_biv.dir/rule
 
 # Convenience name for target.
-long_number_test: tests/CMakeFiles/long_number_test.dir/rule
-.PHONY : long_number_test
+long_number_test_biv: tests/CMakeFiles/long_number_test_biv.dir/rule
+.PHONY : long_number_test_biv
 
 # fast build rule for target.
-long_number_test/fast:
-	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/build
-.PHONY : long_number_test/fast
+long_number_test_biv/fast:
+	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/build
+.PHONY : long_number_test_biv/fast
 
-long_number_test.o: long_number_test.cpp.o
-.PHONY : long_number_test.o
+long_number_test_biv.o: long_number_test_biv.cpp.o
+.PHONY : long_number_test_biv.o
 
 # target to build an object file
-long_number_test.cpp.o:
-	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/long_number_test.cpp.o
-.PHONY : long_number_test.cpp.o
+long_number_test_biv.cpp.o:
+	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/long_number_test_biv.cpp.o
+.PHONY : long_number_test_biv.cpp.o
 
-long_number_test.i: long_number_test.cpp.i
-.PHONY : long_number_test.i
+long_number_test_biv.i: long_number_test_biv.cpp.i
+.PHONY : long_number_test_biv.i
 
 # target to preprocess a source file
-long_number_test.cpp.i:
-	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/long_number_test.cpp.i
-.PHONY : long_number_test.cpp.i
+long_number_test_biv.cpp.i:
+	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/long_number_test_biv.cpp.i
+.PHONY : long_number_test_biv.cpp.i
 
-long_number_test.s: long_number_test.cpp.s
-.PHONY : long_number_test.s
+long_number_test_biv.s: long_number_test_biv.cpp.s
+.PHONY : long_number_test_biv.s
 
 # target to generate assembly for a file
-long_number_test.cpp.s:
-	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test.dir/build.make tests/CMakeFiles/long_number_test.dir/long_number_test.cpp.s
-.PHONY : long_number_test.cpp.s
+long_number_test_biv.cpp.s:
+	cd /home/polina/study/long_number/build && $(MAKE) $(MAKESILENT) -f tests/CMakeFiles/long_number_test_biv.dir/build.make tests/CMakeFiles/long_number_test_biv.dir/long_number_test_biv.cpp.s
+.PHONY : long_number_test_biv.cpp.s
 
 # Help Target
 help:
@@ -162,10 +162,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... long_number_test"
-	@echo "... long_number_test.o"
-	@echo "... long_number_test.i"
-	@echo "... long_number_test.s"
+	@echo "... long_number_test_biv"
+	@echo "... long_number_test_biv.o"
+	@echo "... long_number_test_biv.i"
+	@echo "... long_number_test_biv.s"
 .PHONY : help
 
 

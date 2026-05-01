@@ -1,11 +1,11 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "bubble.hpp"
+#include "../bubble/bubble.hpp"
 
 TEST(ArraysEqual, AnyElementsCount) {
 	std::vector<int> a = {1, 8, 2, 5, 3, 11};
-	bubble::sort(a);
+	ypa::sort(a.data(), a.size());
 	std::vector<int> arr = {1, 2, 3, 5, 8, 11};
 
 	ASSERT_EQ(arr.size(), a.size())
@@ -14,7 +14,7 @@ TEST(ArraysEqual, AnyElementsCount) {
 	for (int i = 0; i < a.size(); i++) {
 		ASSERT_EQ(arr[i], a[i]) 
 			<< "Массивы разные в индексе";
-			<< i;
+			std::cout << i;
 	}
 }
 
