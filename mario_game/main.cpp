@@ -33,23 +33,19 @@ int score;
 int maxLvl;
 
 
-
-
 void ClearMap() {
-	for (int i = 0; i < mapWidth; i++) {
-		map[0][i] = ' ';
-	}
-	map[0][mapWidth] = '\0';
-	for (int j = 1; j < mapHeight; j++) {
-		strcpy(map[j], map[0]);
-	}
-	refresh();
+    for (int j = 0; j < mapHeight; j++) {
+        for (int i = 0; i < mapWidth; i++) {
+            map[j][i] = ' ';
+        }
+        map[j][mapWidth] = '\0';
+    }
 }
 
+
 void ShowMap() {
-	map[mapHeight - 1][mapWidth - 1] = '\0';
 	for (int j = 0; j < mapHeight; j++) {
-		printw("%s", map[j]);
+		mvprintw(j, 0, "%s", map[j]);
 	}
 }
 
@@ -96,7 +92,7 @@ void VerMoveObject(TOobject *obj) {
 	for (int i = 0; i < brickLength; i++) {
 		if (IsCollision(*obj, brick[i])) {
 			if (obj[0].vertSpeed > 0) {
-				obj[0].IsFly = FALSE;
+				obj[0].IsFly = false;
 			}
 
 			if ((brick[i].cType == '?') && (obj[0].vertSpeed < 0) && (obj == &mario)) {
@@ -166,7 +162,7 @@ void HorizonMoveObject(TOobject *obj) {
 	if (obj[0].cType == 'o') {
 		TOobject tmp = *obj;
 		VerMoveObject(&tmp);
-		if (tmp.IsFly == TRUE) {
+		if (tmp.IsFly == true) {
 			obj[0].x -= obj[0].horizSpeed;
 			obj[0].horizSpeed = -obj[0].horizSpeed;
 		}
@@ -187,7 +183,7 @@ void PutObjectOnMap (TOobject obj) {
 	for (int i = ix; i < (ix + iWidth); i++) {
 		for (int j = iy; j < (iy + iHeight); j++) {
 			if (IsPosInMap(i, j))
-				map[iy][ix] = obj.cType;
+				map[j][i] = obj.cType;
 		}
 	}
 }
@@ -256,7 +252,7 @@ void CreateLevel(int lvl) {
 	score = 0;
 
 	if (lvl == 1) {
-		brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
+		//brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
 		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
 		InitObject(GetNewBrick(), 30, 10, 5, 3, '?');
 		InitObject(GetNewBrick(), 50, 10, 5, 3, '?');
@@ -276,7 +272,7 @@ void CreateLevel(int lvl) {
 	}
 
 	if (lvl == 2) {
-		brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
+		//brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
 		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
 		InitObject(GetNewBrick(), 60, 15, 10, 10, '#');
 		InitObject(GetNewBrick(), 80, 20, 20, 5, '#');
@@ -292,7 +288,7 @@ void CreateLevel(int lvl) {
 		InitObject(GetNewMoving(), 175, 10, 3, 2, 'o');
 	}
 	if (lvl == 3) {
-		brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
+		//brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
 		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
 		InitObject(GetNewBrick(), 80, 20, 15, 5, '#');
 		InitObject(GetNewBrick(), 120, 15, 15, 10, '#');
@@ -328,7 +324,7 @@ int main() {
 
 		int key = getch();
 
-		if ((mario.IsFly == FALSE) && (key == ' ')) mario.vertSpeed = -1;
+		if ((mario.IsFly == false) && (key == ' ')) mario.vertSpeed = -1;
 		if (key == 'a' || key == 'A') HorizonMoveMap(1);
 		if (key == 'd' || key == 'D') HorizonMoveMap(-1);
 		if (key == 27) break;
@@ -356,6 +352,7 @@ int main() {
 
 		move(0, 0);
 		ShowMap();
+		refresh();
 		napms(10);
 
 	} while (1);
