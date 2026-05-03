@@ -159,7 +159,7 @@ void HorizonMoveObject(TOobject *obj) {
 			return;
 		}
 	}
-	if (obj[0].cType == 'o') {
+	if (obj[0].cType == 'o' || obj[0].cType == '$') {
 		TOobject tmp = *obj;
 		VerMoveObject(&tmp);
 		if (tmp.IsFly == true) {
@@ -251,21 +251,17 @@ void CreateLevel(int lvl) {
 	InitObject(&mario, 39, 10, 3, 3, '@');
 	score = 0;
 
-	if (lvl == 1) {
+	if (lvl == 3) {
 		//brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
 		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
 		InitObject(GetNewBrick(), 30, 10, 5, 3, '?');
 		InitObject(GetNewBrick(), 50, 10, 5, 3, '?');
 		InitObject(GetNewBrick(), 60, 15, 40, 10, '#');
-		InitObject(GetNewBrick(), 70, 5, 10, 3, '-');
 		InitObject(GetNewBrick(), 75, 5, 5, 3, '?');
 		InitObject(GetNewBrick(), 80, 5, 5, 3, '-');
 		InitObject(GetNewBrick(), 85, 5, 5, 3, '?');
 		InitObject(GetNewBrick(), 50, 5, 10, 3, '-');
-		InitObject(GetNewBrick(), 100, 20, 20, 5, '#');
-		InitObject(GetNewBrick(), 120, 15, 10, 10, '#');
-		InitObject(GetNewBrick(), 150, 20, 40, 5, '#');
-		InitObject(GetNewBrick(), 210, 15, 10, 10, '+');
+		InitObject(GetNewBrick(), 95, 5, 3, 5, '+');
 
 		InitObject(GetNewMoving(), 25, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 80, 10, 3, 2, 'o');
@@ -273,32 +269,30 @@ void CreateLevel(int lvl) {
 
 	if (lvl == 2) {
 		//brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
-		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
-		InitObject(GetNewBrick(), 60, 15, 10, 10, '#');
-		InitObject(GetNewBrick(), 80, 20, 20, 5, '#');
-		InitObject(GetNewBrick(), 120, 15, 10, 10, '#');
-		InitObject(GetNewBrick(), 150, 20, 40, 5, '#');
-		InitObject(GetNewBrick(), 210, 15, 10, 10, '+');
+		//InitObject(TOobject *obj, float xPos, float yPos, float oWidth, 
+		// float oHeigth, char inType)
+		InitObject(GetNewBrick(), 0, 22, 80, 3, '#');
+		InitObject(GetNewBrick(), 60, 19, 20, 3, '#');
+		InitObject(GetNewBrick(), 83, 21, 5, 3, '#');
 
-		InitObject(GetNewMoving(), 25, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 80, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 65, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 120, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 160, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 175, 10, 3, 2, 'o');
+        InitObject(GetNewMoving(), 25, 19, 3, 2, 'o');
+        InitObject(GetNewMoving(), 70, 15, 3, 2, 'o');
+        
+        InitObject(GetNewBrick(), 20, 15, 4, 3, '?');
+        InitObject(GetNewBrick(), 60, 10, 4, 3, '?');
+        InitObject(GetNewBrick(), 90, 21, 5, 3, '+');
 	}
-	if (lvl == 3) {
+	if (lvl == 1) {
 		//brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
-		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
-		InitObject(GetNewBrick(), 80, 20, 15, 5, '#');
-		InitObject(GetNewBrick(), 120, 15, 15, 10, '#');
-		InitObject(GetNewBrick(), 160, 10, 15, 15, '+');
+		InitObject(GetNewBrick(), 20, 20, 60, 5, '#');
+		InitObject(GetNewBrick(), 80, 18, 30, 5, '#');
+		InitObject(GetNewBrick(), 112, 15, 42, 10, '#');
+		InitObject(GetNewBrick(), 160, 20, 15, 15, '+');
+
+        InitObject(GetNewBrick(), 60, 12, 4, 3, '?');
 		
-		InitObject(GetNewMoving(), 25, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 80, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 65, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 120, 10, 3, 2, 'o');
-		InitObject(GetNewMoving(), 160, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 175, 10, 3, 2, 'o');
 	}
 
