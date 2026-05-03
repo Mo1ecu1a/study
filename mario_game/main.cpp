@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <math.h>
-#include <windows.h>
+#include <ncurses.h>
+#include <string.h>
 
 #define mapWidth 80
 #define mapHeight 25
@@ -12,7 +12,7 @@ typedef struct SOobject {
 	float x, y;
 	float width, heigth;
 	float vertSpeed;
-	BOOL IsFly;
+	bool IsFly;
 	char cType;
 	float horizSpeed;
 } TOobject;
@@ -36,16 +36,17 @@ void ClearMap() {
 	for (int i = 0; i < mapWidth; i++) {
 		map[0][i] = ' ';
 	}
-	map[0][mapWidth] = '\0'
+	map[0][mapWidth] = '\0';
 	for (int j = 1; j < mapHeight; j++) {
 		sprintf(map[j], map[0]);
 	}
+	refresh();
 }
 
 void ShowMap() {
 	map[mapHeight - 1][mapWidth - 1] = '\0';
 	for (int j = 0; j < mapHeight; j++) {
-		printf("%s", map[j]);
+		printw("%s", map[j]);
 	}
 }
 
@@ -70,7 +71,9 @@ void InitObject(TOobject *obj, float xPos, float yPos, float oWidth, float oHeig
 
 void PlayerDead() {
 	system("color 4F");
-	Sleep(500);
+	start_color();
+	init_pair(1, COLOR_RED, COLOR_RED);
+	refresh();
 	CreateLevel(level);
 }
 
@@ -80,12 +83,12 @@ void PlayerDead() {
 
 
 
-BOOL IsCollision(TOobject o1, TOobject o2);
+bool IsCollision(TOobject o1, TOobject o2);
 void CreateLevel(int lvl);
 TOobject *GetMewMoving();
 
 void VerMoveObject(TOobject *obj) {
-	(*obj).IsFly = TRUE;
+	(*obj).IsFly = true;
 	(*obj).vertSpeed += 0.05;
 	SetObjectPos(obj, (*obj).x, (*obj).y + (*obj).vertSpeed);
 
@@ -97,7 +100,7 @@ void VerMoveObject(TOobject *obj) {
 
 			if ((brick[i].cType == '?') && (obj[0].vertSpeed < 0) && (obj == &mario)) {
 				brick[i].cType = '-';
-				InitObject(GetNewMoving(), brick[i].x, brick[i].y-3, 3, 2, '$');
+				InitObject(GetMewMoving(), brick[i].x, brick[i].y-3, 3, 2, '$');
 				moving[movingLength - 1].vertSpeed = -0.7;
 			}
 
@@ -107,10 +110,8 @@ void VerMoveObject(TOobject *obj) {
 			if (brick[i].cType == '+') {
 				level++;
 				if (level > maxLvl) level = 1;
-
-				system("color 2F");
-				Sleep(500);
 				CreateLevel(level);
+				refresh();
 			}
 			break;
 		}
@@ -121,10 +122,11 @@ void VerMoveObject(TOobject *obj) {
 
 
 
+
 void DeleteMoving(int i) {
 	movingLength--;
 	moving[i] = moving[movingLength];
-	moving = realloc(moving, sizeof(*moving) * movingLength);
+	moving = (TOobject*)realloc(moving, sizeof(*moving) * movingLength);
 }
 
 
@@ -134,7 +136,7 @@ void MarioCollision() {
 		if (IsCollision(mario, moving[i])) {
 
 			if (moving[i].cType == 'o') {
-				if ((mario.IsFly == TRUE) && (mario.vertSpeed > 0) && (mario.y + mario.heigth < moving[i].y + moving[i].heigth * 0.5)) {
+				if ((mario.IsFly == true) && (mario.vertSpeed > 0) && (mario.y + mario.heigth < moving[i].y + moving[i].heigth * 0.5)) {
 					score += 50;
 					DeleteMoving(i);
 					i--;
@@ -179,8 +181,8 @@ void HorizonMoveObject(TOobject *obj) {
 
 
 
-BOOL IsPosInMap(int x, int y) {
-	returb ((x >= 0) && (x < mapWidth) && (y >= 0) && (y < mapHeight));
+bool IsPosInMap(int x, int y) {
+	return ((x >= 0) && (x < mapWidth) && (y >= 0) && (y < mapHeight));
 }
 
 
@@ -199,12 +201,6 @@ void PutObjectOnMap (TOobject obj) {
 }
 
 
-void setCur(int x, int y) {
-	COORD coord;
-	coord.X = x;
-	coord.Y = y;
-	SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_NANDLE), coord);
-}
 
 
 
@@ -227,23 +223,25 @@ void HorizonMoveMap(float dx) {
 
 
 
-BOOL IsCollision(TOobject o1, TOobject o2) {
+bool IsCollision(TOobject o1, TOobject o2) {
 	return (((o1.x + o1.width) > o2.x) && (o1.x < (o2.x + o2.width)) && ((o1.y + o1.heigth) > o2.y) && (o1.y < (o2.y + o2.heigth)));
 }
 
 
 
 
-TOobject *GetMewBrick() {
+
+
+TOobject *GetNewBrick() {
 	brickLength++;
-	brick = realloc(brick, sizeof(*brick) * brickLength);
+	brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
 	return brick + brickLength - 1;
 }
 
 
-TOobject *GetMewMoving() {
+TOobject *GetNewMoving() {
 	movingLength++;
-	moving = realloc(moving, sizeof(*moving) * movingLength);
+	moving = (TOobject*)realloc(moving, sizeof(*moving) * movingLength);
 	return moving + movingLength - 1;
 }
 
@@ -252,7 +250,7 @@ TOobject *GetMewMoving() {
 
 void PutScoreOnMap() {
 	char c[30];
-	sprintf(c, "Score: %d", score);
+	mvprintw(c, "Score: %d", score);
 	int len = strlen(c);
 	for (int i = 0; i < len; i++) {
 		map[1][i+5] = c[i];
@@ -265,44 +263,43 @@ void PutScoreOnMap() {
 
 
 void CreateLevel(int lvl) {
-	system("color 9F");
 
 	brickLength = 0;
-	brick = realloc(brick, 0);
+	brick = (TOobject*)realloc(brick, 0);
 	movingLength = 0;
-	moving = realloc(moving, 0);
+	moving = (TOobject*)realloc(moving, 0);
 
 	InitObject(&mario, 39, 10, 3, 3, '@');
 	score = 0;
 
 	if (lvl == 1) {
-		brick = realloc(brick, sizeof(*brick) * brickLength);
-		InitObject(GetMewBrick(), 20, 20, 40, 5, '#');
-		InitObject(GetMewBrick(), 30, 10, 5, 3, '?');
-		InitObject(GetMewBrick(), 50, 10, 5, 3, '?');
-		InitObject(GetMewBrick(), 60, 15, 40, 10, '#');
-		InitObject(GetMewBrick(), 70, 5, 10, 3, '-');
-		InitObject(GetMewBrick(), 75, 5, 5, 3, '?');
-		InitObject(GetMewBrick(), 80, 5, 5, 3, '-');
-		InitObject(GetMewBrick(), 85, 5, 5, 3, '?');
-		InitObject(GetMewBrick(), 50, 5, 10, 3, '-');
-		InitObject(GetMewBrick(), 100, 20, 20, 5, '#');
-		InitObject(GetMewBrick(), 120, 15, 10, 10, '#');
-		InitObject(GetMewBrick(), 150, 20, 40, 5, '#');
-		InitObject(GetMewBrick(), 210, 15, 10, 10, '+');
+		brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
+		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
+		InitObject(GetNewBrick(), 30, 10, 5, 3, '?');
+		InitObject(GetNewBrick(), 50, 10, 5, 3, '?');
+		InitObject(GetNewBrick(), 60, 15, 40, 10, '#');
+		InitObject(GetNewBrick(), 70, 5, 10, 3, '-');
+		InitObject(GetNewBrick(), 75, 5, 5, 3, '?');
+		InitObject(GetNewBrick(), 80, 5, 5, 3, '-');
+		InitObject(GetNewBrick(), 85, 5, 5, 3, '?');
+		InitObject(GetNewBrick(), 50, 5, 10, 3, '-');
+		InitObject(GetNewBrick(), 100, 20, 20, 5, '#');
+		InitObject(GetNewBrick(), 120, 15, 10, 10, '#');
+		InitObject(GetNewBrick(), 150, 20, 40, 5, '#');
+		InitObject(GetNewBrick(), 210, 15, 10, 10, '+');
 
 		InitObject(GetNewMoving(), 25, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 80, 10, 3, 2, 'o');
 	}
 
 	if (lvl == 2) {
-		brick = realloc(brick, sizeof(*brick) * brickLength);
-		InitObject(GetMewBrick(), 20, 20, 40, 5, '#');
-		InitObject(GetMewBrick(), 60, 15, 10, 10, '#');
-		InitObject(GetMewBrick(), 80, 20, 20, 5, '#');
-		InitObject(GetMewBrick(), 120, 15, 10, 10, '#');
-		InitObject(GetMewBrick(), 150, 20, 40, 5, '#');
-		InitObject(GetMewBrick(), 210, 15, 10, 10, '+');
+		brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
+		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
+		InitObject(GetNewBrick(), 60, 15, 10, 10, '#');
+		InitObject(GetNewBrick(), 80, 20, 20, 5, '#');
+		InitObject(GetNewBrick(), 120, 15, 10, 10, '#');
+		InitObject(GetNewBrick(), 150, 20, 40, 5, '#');
+		InitObject(GetNewBrick(), 210, 15, 10, 10, '+');
 
 		InitObject(GetNewMoving(), 25, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 80, 10, 3, 2, 'o');
@@ -312,11 +309,11 @@ void CreateLevel(int lvl) {
 		InitObject(GetNewMoving(), 175, 10, 3, 2, 'o');
 	}
 	if (lvl == 3) {
-		brick = realloc(brick, sizeof(*brick) * brickLength);
-		InitObject(GetMewBrick(), 20, 20, 40, 5, '#');
-		InitObject(GetMewBrick(), 80, 20, 15, 5, '#');
-		InitObject(GetMewBrick(), 120, 15, 15, 10, '#');
-		InitObject(GetMewBrick(), 160, 10, 15, 15, '+');
+		brick = (TOobject*)realloc(brick, sizeof(*brick) * brickLength);
+		InitObject(GetNewBrick(), 20, 20, 40, 5, '#');
+		InitObject(GetNewBrick(), 80, 20, 15, 5, '#');
+		InitObject(GetNewBrick(), 120, 15, 15, 10, '#');
+		InitObject(GetNewBrick(), 160, 10, 15, 15, '+');
 		
 		InitObject(GetNewMoving(), 25, 10, 3, 2, 'o');
 		InitObject(GetNewMoving(), 80, 10, 3, 2, 'o');
@@ -332,10 +329,17 @@ void CreateLevel(int lvl) {
 
 
 int main() {
-	CreateLevel();
+	initscr();
+	cbreak();
+	noecho();
+	start_color();
+	keypad(stdscr, TRUE);
+
+
+	CreateLevel(level);
 
 	do {
-		ClearMap(level);
+		ClearMap();
 
 		if ((mario.IsFly == FALSE) && (GetKeyState(VK_ESCAPE) < 0)) mario.vertSpeed = -1;
 		if (GetKeyState('A') < 0) HorizonMoveMap(1);
@@ -366,7 +370,8 @@ int main() {
 		ShowMap();
 		Sleep(10);
 
-	}
-	while (GetKeyState (VK_ESCAPE) >= 0);
-	return 0;`
+	} while (GetKeyState (VK_ESCAPE) >= 0);
+
+	endwin();
+	return 0;
 }
