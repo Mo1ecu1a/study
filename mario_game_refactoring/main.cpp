@@ -19,33 +19,39 @@ typedef struct GameObject {
 	float horizSpeed;
 }
 
-bool IsCollision(TOobject o1, TOobject o2);
-void CreateLevel(int lvl);
-TOobject *GetNewMoving();
 
-
-
-TOobject *add_brick(GameState *gs);
-TOobject *add_moving_object(GameState *gs);
-bool check_collision(TOobject o1, TOobject o2);
-void clear_map(GameState *gs);
-void create_level(GameState *gs, int lvl);
-void delete_moving_object(GameState *gs, int i);
+GameObject *add_brick(GameObject **brick, int *brickLength);
+GameObject *add_moving_object(GameObject **moving, int *movingLength);
+bool check_collision(GameObject o1, GameObject o2);
+void clear_map(char map[mapHeight][mapWidth + 1]);
+void create_level(GameObject *mario, GameObject **brick, int *brickLength, GameObject **moving, int *movingLength, int *level, int *score, int *maxLvl, int lvl);
+void delete_moving_object(GameObject **moving, int *movingLength, int i);
 int get_key_press(void);
-void handle_mario_collision(GameState *gs);
-void init_object(TOobject *obj, float xPos, float yPos, float oWidth, float oHeigth, char inType);
-void is_player_dead(GameState *gs);
+void handle_mario_collision(GameObject **mario, GameObject *moving, int movingLength, int *score);
+void init_object(GameObject *obj, float xPos, float yPos, float oWidth, float oHeigth, char inType);
+void is_player_dead(GameObject *mario, GameObject **brick, int *brickLength, GameObject **moving, int *movingLength, int *level, int *score, int *maxLvl, int level_current);
 bool is_position_valid(int x, int y);
-void move_horizontally(GameState *gs, TOobject *obj);
-void move_map_horizontally(GameState *gs, float dx);
-void move_vertically(GameState *gs, TOobject *obj);
-void put_object_on_map(GameState *gs, TOobject obj);
-void put_score_on_map(GameState *gs);
-void set_object_position(TOobject *obj, float xPos, float yPos);
-void show_map(GameState *gs);
+void move_horizontally(GameObject *obj, GameObject *brick, int brickLength);
+void move_map_horizontally(GameObject *mario, GameObject *brick, int brickLength, GameObject *moving, int movingLength, float dx);
+void move_vertically(GameObject *obj, GameObject *brick, int brickLength, GameObject *mario, GameObject **moving, int *movingLength, int *level, int *score, int *maxLvl);
+void put_object_on_map(char map[mapHeight][mapWidth + 1], GameObject obj);
+void put_score_on_map(char map[mapHeight][mapWidth + 1], int score);
+void set_object_position(GameObject *obj, float xPos, float yPos);
+void show_map(char map[mapHeight][mapWidth + 1];
 
 
 int main() {
+	GameObject* brick = nullptr;
+	int brickLength = 0;
+	int level = 1;
+	char map[mapHeight][mapWidth + 1];
+	int maxLvl = 0;
+	GameObject mario = ();
+	GameObject* moving = nullptr;
+	int movingLength = 0;
+	int score = 0;
+
+
 	initscr();
 	cbreak();
 	noecho();
@@ -54,21 +60,7 @@ int main() {
 	curs_set(0);
 	nodelay(stdscr, TRUE);
 
-
-    char map[mapHeight][mapWidth + 1];
-    TOobject mario;
-    TOobject *brick = NULL;
-    int brickLength;
-
-    TOobject *moving = NULL;
-    int movingLength;
-
-    int level = 1;
-    int score;
-    int maxLvl;
-
-
-	CreateLevel(level);
+	CreateLevel(&mario, &brick, &brickLength, &moving, &movingLength, &level, &score, &maxLvl, level);
 
 	do {
 		ClearMap();
