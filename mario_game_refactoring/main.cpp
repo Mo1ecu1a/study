@@ -56,49 +56,49 @@ int main() {
 	cbreak();
 	noecho();
 	start_color();
-	keypad(stdscr, TRUE);
+	keypad(stdscr, TRUE);HorizonMoveMap
 	curs_set(0);
 	nodelay(stdscr, TRUE);
 
-	CreateLevel(&mario, &brick, &brickLength, &moving, &movingLength, &level, &score, &maxLvl, level);
+	create_level(&mario, &brick, &brickLength, &moving, &movingLength, &level, &score, &maxLvl, level);
 
 	do {
-		ClearMap();
+		clear_map(map);
 
 		int key = getch();
 
-		if ((mario.IsFly == false) && (key == ' ')) mario.vertSpeed = -1;
-		if (key == 'a' || key == 'A') HorizonMoveMap(1);
-		if (key == 'd' || key == 'D') HorizonMoveMap(-1);
+		if (!mario.IsFly && (key == ' ')) mario.vertSpeed = -1;
+		if (key == 'a' || key == 'A') move_map_horizontally(&mario, brick, brickLength, moving, movingLength, 1);
+		if (key == 'd' || key == 'D') move_map_horizontally(&mario, brick, brickLength, moving, movingLength, -1);
 		if (key == 27) break;
 
-		if (mario.y > mapHeight) PlayerDead();
+		if (mario.y > mapHeight) is_player_dead(&mario, &brick, &brickLength, &moving, &movingLength, &level, &score, &maxLvl, level);
 
-		VerMoveObject(&mario);
-		MarioCollision();
+        move_vertically(&mario, brick, brickLength, &mario, &moving, &movingLength, &level, &maxLvl);
+        handle_mario_collision(&mario, moving, movingLength, &score, &brick, &brickLength, &moving, &movingLength, &level, &score, &maxLvl);
 
 		for (int i = 0; i < brickLength; i++) {
-			PutObjectOnMap(brick[i]);
+			put_object_on_map(map, brick[i]);
 		}
 		for (int i = 0; i < movingLength; i++) {
-			VerMoveObject(moving + i);
-			HorizonMoveObject(moving + i);
+			move_vertically(moving + i, brick, brickLength, &mario, &moving, &movingLength, &level, &maxLvl);
+			move_horizontally(moving + i, brick, brickLength);
 			if (moving[i].y > mapHeight) {
-				DeleteMoving(i);
+				delete_moving_object(&moving, &movingLength, i);
 				i--;
 				continue;
 			}
-			PutObjectOnMap(moving[i]);
+			put_object_on_map(map, moving[i]);
 		}
-		PutObjectOnMap(mario);
-		PutScoreOnMap();
+		put_object_on_map(map, mario);
+		put_score_on_map(map, score);
 
 		move(0, 0);
-		ShowMap();
+		show_map(map);
 		refresh();
 		napms(10);
 
-	} while (1);
+	} while (true);
 
 	endwin();
 	return 0;
