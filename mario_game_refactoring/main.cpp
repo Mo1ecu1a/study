@@ -17,13 +17,6 @@ typedef struct GameObject {
 } GameObject;
 
 
-
-
-
-
-
-
-
 void clear_map(const int MAP_HIGHT, const int MAP_WIDTH, char **map);
 void create_level(int lvl, GameObject& mario, GameObject *&brick, int &brickLength, GameObject *&moving, int &movingLength, int level, int maxLvl, int &score);
 void delete_moving(int i, GameObject *&moving, int &movingLength);
@@ -44,7 +37,6 @@ void show_map(char **map, const int MAP_HIGHT);
 void vertical_move_object(GameObject *obj, GameObject &mario, GameObject *&brick, int &brickLength, GameObject *&moving, int &movingLength, int level, int maxLvl, int &score);
 
 
-
 int main() {
 	const int MAP_WIDTH = 80;
 	const int MAP_HIGHT = 25;
@@ -52,13 +44,18 @@ int main() {
 	for (int i = 0; i < MAP_HIGHT; i++) {
     	map[i] = new char[MAP_WIDTH + 1];
 	}
+
 	GameObject mario;
+
 	GameObject *brick = nullptr;
 	int brickLength = 0;
+
 	GameObject *moving = nullptr;
 	int movingLength = 0;
+
 	int level = 1;
 	int maxLvl;
+
 	int score;
 
     initscr();
@@ -93,7 +90,7 @@ int main() {
         for (int i = 0; i < movingLength; i++) {
             vertical_move_object(moving + i, mario, brick, brickLength, moving, movingLength, level, maxLvl, score);
             horizon_move_object(moving + i, mario, brick, brickLength, moving, movingLength, level, maxLvl, score);
-            if (moving[i].y > MAP_HIGHT) {
+			if (moving[i].y > MAP_HIGHT) {
                 delete_moving(i, moving, movingLength);
                 i--;
                 continue;
